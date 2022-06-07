@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover"
+    />
+    <title>LIFF: LINE Front-end Framework</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <link rel="stylesheet" href="../../../css/vertical-layout-light/style.css">
+  </head>
+  <body id="body">
+    <section id="button">
+      <button id="btnLogIn" class="col-md-12" style="position: fixed; top: 40%; display:none;">login</button>
+    </section>
+    <script>
+            // Body element
+        const body = document.getElementById('body');
+        
+        // Button elements
+        const btnLogIn = document.getElementById('btnLogIn');
+        const btnLogOut = document.getElementById('btnLogOut');
+        
+        async function main() {
+          // Initialize LIFF app)
+          await liff.init({ liffId: '1656632478-yVZe7mzo' });
+        
+          // Try a LIFF function
+          switch (liff.getOS()) {
+            case 'android':
+              body.style.backgroundColor = '#d1f5d3';
+              break;
+            case 'ios':
+              body.style.backgroundColor = '#eeeeee';
+              break;
+          }
+        
+          getUserProfile();
+          if (!liff.isInClient()) {
+            if (liff.isLoggedIn()) {
+              btnLogIn.style.display = 'none';
+              getUserProfile();
+            } else {
+              btnLogIn.style.display = 'block';
+            }
+          }
+        }
+        main();
+        
+        async function getUserProfile() {
+          const profile = await liff.getProfile();
+          window.location.href = "checkLine.php?w1=" + profile.userId + "&name=" + profile.displayName+ "&email="+liff.getDecodedIDToken().email
+
+
+        }
+        
+        btnLogIn.onclick = () => {
+          liff.login();
+        };
+        
+        btnLogOut.onclick = () => {
+          liff.logout();
+          window.location.reload();
+        };
+        
+
+    </script>
+  </body>
+</html>

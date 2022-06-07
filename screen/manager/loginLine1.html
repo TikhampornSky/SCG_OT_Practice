@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover"
+    />
+    <title>เช็คสถานะ</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../../vendors/feather/feather.css">
+    <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <link rel="stylesheet" href="../template/vendors/codemirror/codemirror.css">
+    <link rel="stylesheet" href="../template/vendors/codemirror/ambiance.css">
+    <link rel="stylesheet" href="../template/vendors/pwstabs/jquery.pwstabs.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="../../images/favicon.png" />
+</head>
+
+<body id="body">
+    <button id="btnLogIn" class="col-md-12" style="position: fixed; top: 40%; display:none;">login</button>
+    <div class=" container-scroller">
+        <!--<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">-->
+        <!--  <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">-->
+        <!--    <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="logo" /></a>-->
+        <!--    <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo" /></a>-->
+        <!--  </div>-->
+        <!--  <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">-->
+        <!--    <span class="text-dark">คุณ <?= $rs1->employee_name ?></span>-->
+        <!--  </div>-->
+        <!--</nav>-->
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+          <div class="main-panel w-100  documentation">
+            <div class="content-wrapper">
+              <div class="container-fluid">
+                <div class="row pt-5 mt-5">
+                  <div class="col-12 pt-5 text-center">
+                    <i class="text-primary mdi mdi-file-document-box-multiple-outline display-1"></i>
+                    <label id="userId"></label>
+                    <!--<h3 class="text-success font-weight-light mt-5">ระบบได้รับข้อมูลของท่านเรียนร้อยแล้ว </h3>-->
+                    <!--<h4 class="mt-4 font-weight-light text-danger">โปรดดำเนินการขออนุมัติใน-->
+                    <!--  <span class="text-danger">ระบบ E-hr อีกครั้งหนึ่ง</span>เนื่องจาก App นี้เป็นการทดลองระบบ  -->
+                    <!--  <br><br>-->
+                    <!--  <a href="https://ehr.scg.co.th/Index.html/?fbclid=IwAR0d6RuSpAHx9Eam0Fj6lU4MC9S_AAM6w4IQFCpXqlN7iw-ZO1ll5lDn0w0" target="_blank" class="text-danger d-block text-truncate"><button class="btn btn-primary">คลิ๊กลิ้งเพื่อไปยังระบบ E-hr</button></a><br>-->
+                    <!--  <a class="btn btn-primary" href="information.php"><i class="ti-home mr-2"></i>Back to home</a>-->
+                    <!--</h4>-->
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 pt-5">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- partial:../../partials/_footer.html -->
+            <!-- partial -->
+          </div>
+        </div>
+    </div>
+    <script>
+            // Body element
+        var res = "";
+        var userid = "";
+        const body = document.getElementById('body');
+        
+        // Button elements
+        const btnLogIn = document.getElementById('btnLogIn');
+        const btnLogOut = document.getElementById('btnLogOut');
+        const userId = document.getElementById('userId');
+        
+
+        
+        async function main() {
+          var res = "";
+          // Initialize LIFF app)
+          await liff.init({ liffId: '1656632478-pRlO1WKj' });
+        
+          // Try a LIFF function
+          switch (liff.getOS()) {
+            case 'android':
+              body.style.backgroundColor = '#d1f5d3';
+              break;
+            case 'ios':
+              body.style.backgroundColor = '#eeeeee';
+              break;
+          }
+        
+          getUserProfile();
+          if (!liff.isInClient()) {
+            if (liff.isLoggedIn()) {
+              btnLogIn.style.display = 'none';
+              getUserProfile();
+            } else {
+              btnLogIn.style.display = 'block';
+            }
+          }
+        }
+        
+        main();
+        
+        async function getUserProfile() {
+          const profile = await liff.getProfile();
+          window.location.href = "report.php?w1=" + profile.userId + "&name=" + profile.displayName
+
+
+        }
+        
+        btnLogIn.onclick = () => {
+          liff.login();
+        };
+        
+        
+
+    </script>
+    <!-- plugins:js -->
+    <script src="../../vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src="../../js/off-canvas.js"></script>
+    <script src="../../js/hoverable-collapse.js"></script>
+    <script src="../../js/template.js"></script>
+    <script src="../../js/settings.js"></script>
+    <script src="../../js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="../../js/codeEditor.js"></script>
+    <script src="../../js/tabs.js"></script>
+    <script src="../../js/tooltips.js"></script>
+    <script src="../../js/documentation.js"></script>
+    <!-- End custom js for this page-->
+</body>
+</html>
